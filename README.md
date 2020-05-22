@@ -1,10 +1,10 @@
 # buildOpenCV
-Script for building OpenCV 4 on the NVIDIA Jetson Nano Developer Kit
+Script for building OpenCV 4 on the NVIDIA Jetson TX2 Developer Kit
 
 Building for:
-* Jetson Nano
-* L4T 32.2.1/JetPack 4.2.2
-* OpenCV 4.1.1
+* Jetson TX2
+* L4T 32.3.1/JetPack 4.4
+* OpenCV 4.3.0
 * Packaging Option ( Builds package by default; --no_package does not build package)
 
 <em><b>Note: </b>The script does not check to see which version of L4T is running before building, understand the script may only work with the stated versions.</em>
@@ -16,11 +16,11 @@ This is a long build, you may want to write to a log file, for example:
 
 While the build will still be written to the console, the build log will be written to openCV_build.log for later review.
 
-On the Jetson Nano, this is a challenging build. There is not enough memory on the Nano to make with multiple jobs (i.e)
+On the Jetson TX2, this is a challenging build. There is not enough memory on the Nano to make with multiple jobs (i.e)
 
 <blockquote>$ make -j4</blockquote>
 
-without using a significant amount of swap file space. With L4T 32.2.1, there is a default swap space. However, if you are using a SD card, this can result in long compile times as both physcial memory and the swap file memory exhaust. Recommend using a USB drive for building. If you use a SD card, consider setting the environment variable NUM_JOBS in the buildOpenCV.sh script to 1. The build time may be longer, but you will not have the same amount of memory/SD card thrashing. If you are using a USB drive, you may want to add a swapfile: https://github.com/JetsonHacksNano/installSwapfile.
+without using a significant amount of swap file space. With L4T 32.3.1, there is a default swap space. However, if you are using a SD card, this can result in long compile times as both physcial memory and the swap file memory exhaust. Recommend using a USB drive for building. If you use a SD card, consider setting the environment variable NUM_JOBS in the buildOpenCV.sh script to 1. The build time may be longer, but you will not have the same amount of memory/SD card thrashing. If you are using a USB drive, you may want to add a swapfile: https://github.com/JetsonHacksNano/installSwapfile.
 
 Note that if you are building for Python, you most definitely will benefit from building with a swap file and running on a USB drive. See: https://github.com/JetsonHacksNano/installSwapfile 
 
@@ -39,7 +39,6 @@ OpenCV is a very rich environment, with many different options available. Check 
 * GStreamer
 * V4L - (Video for Linux)
 * QT - (<em>No gtk support built in</em>)
-* Python 2 bindings
 * Python 3 bindings
 
 ## Packaging
@@ -49,6 +48,8 @@ By default, the build will create a OpenCV package. The package file will be fou
 The advantage of packaging is that you can use the resulting package file to install this OpenCV build on other machines without having to rebuild. Whether the OpenCV package is built or not is controlled by the CMake directive <b>CPACK_BINARY_DEB</b> in the script.
 
 ## Notes
+<b>November 2020, second Release</b>
+* changed for TX2
 
 <b>November 2019, Initial Release</b>
 
