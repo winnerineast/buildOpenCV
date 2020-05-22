@@ -2,9 +2,9 @@
 # License: MIT. See license file in root directory
 # Copyright(c) JetsonHacks (2017-2019)
 
-OPENCV_VERSION=4.1.1
-# Jetson Nano
-ARCH_BIN=5.3
+OPENCV_VERSION=4.3.0
+# Jetson TX2
+ARCH_BIN=6.2
 INSTALL_DIR=/usr/local
 # Download the opencv_extras repository
 # If you are installing the opencv testdata, ie
@@ -13,7 +13,7 @@ INSTALL_DIR=/usr/local
 # Value should be YES or NO
 DOWNLOAD_OPENCV_EXTRAS=NO
 # Source code directory
-OPENCV_SOURCE_DIR=$HOME
+OPENCV_SOURCE_DIR=..
 WHEREAMI=$PWD
 # NUM_JOBS is the number of jobs to run simultaneously when using make
 # This will default to the number of CPU cores (on the Nano, that's 4)
@@ -28,7 +28,7 @@ PACKAGE_OPENCV="-D CPACK_BINARY_DEB=ON"
 function usage
 {
     echo "usage: ./buildOpenCV.sh [[-s sourcedir ] | [-h]]"
-    echo "-s | --sourcedir   Directory in which to place the opencv sources (default $HOME)"
+    echo "-s | --sourcedir   Directory in which to place the opencv sources (default ..)"
     echo "-i | --installdir  Directory in which to install opencv libraries (default /usr/local)"
     echo "--no_package       Do not package OpenCV as .deb file (default is true)"
     echo "-h | --help  This message"
@@ -105,8 +105,6 @@ sudo apt-get install -y \
 cd /usr/local/cuda/include
 sudo patch -N cuda_gl_interop.h $WHEREAMI'/patches/OpenGLHeader.patch' 
 
-# Python 2.7
-sudo apt-get install -y python-dev  python-numpy  python-py  python-pytest
 # Python 3.6
 sudo apt-get install -y python3-dev python3-numpy python3-py python3-pytest
 
@@ -114,6 +112,8 @@ sudo apt-get install -y python3-dev python3-numpy python3-py python3-pytest
 sudo apt-get install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev 
 
 cd $OPENCV_SOURCE_DIR
+echo $OPENCV_SOURCE_DIR
+echo $OPENCV_VERSION
 git clone --branch "$OPENCV_VERSION" https://github.com/opencv/opencv.git
 git clone --branch "$OPENCV_VERSION" https://github.com/opencv/opencv_contrib.git
 
@@ -163,7 +163,6 @@ time cmake -D CMAKE_BUILD_TYPE=RELEASE \
       -D WITH_GSTREAMER_0_10=OFF \
       -D WITH_QT=ON \
       -D WITH_OPENGL=ON \
-      -D BUILD_opencv_python2=ON \
       -D BUILD_opencv_python3=ON \
       -D BUILD_TESTS=OFF \
       -D BUILD_PERF_TESTS=OFF \
